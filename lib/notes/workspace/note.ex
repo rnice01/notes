@@ -5,6 +5,9 @@ defmodule Notes.Workspace.Note do
   schema "notes" do
     field :content, :string
     field :title, :string
+    
+    many_to_many :tags, Notes.Workspace.Tag,
+      join_through: Notes.Workspace.NoteTag
 
     timestamps()
   end
@@ -14,5 +17,6 @@ defmodule Notes.Workspace.Note do
     note
     |> cast(attrs, [:title, :content])
     |> validate_required([:title, :content])
+    |> cast_assoc(:tags, required: false)
   end
 end
